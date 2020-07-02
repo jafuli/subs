@@ -24,7 +24,9 @@ public class Program {
 //		Ship s = new Ship(3, true);
 //		Ship s2 = new Ship(5, false);
 
+		int[] shipSizes = { 2, 2, 3, 4, 5 };
 		Player p1 = new Player();
+		Player p2 = new Player();
 //		try {
 //			p1.placeShip(5, 1, s);
 //		} catch (Exception e1) {
@@ -46,8 +48,7 @@ public class Program {
 //		}
 //		p1.printBoard();
 
-		List<Ship> ships = new ArrayList<Ship>();
-		int[] shipSizes = { 2, 2, 3, 4, 5 };
+//		List<Ship> ships = new ArrayList<Ship>();
 
 //		System.out.println("place 5 ships:");
 //		Scanner sc = new Scanner(System.in);
@@ -73,16 +74,23 @@ public class Program {
 		
 		try {
 			generateBoard(p1);
+			generateBoard(p2);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		p1.setGuessBoard(p1.getBoard());
+		p1.setGuessBoard(p2.getPlayerBoard());
+		p2.setGuessBoard(p1.getPlayerBoard());
+		p1.setEnemyShips(p2.getPlayerShips());
+		p2.setEnemyShips(p1.getPlayerShips());
 		
+		p1.shoot(0, 0);
 		p1.shoot(1, 0);
-		p1.getEnemyShips();
+//		p1.getEnemyShips();
 //		System.out.println(ships);
 		p1.printBoard();
+		System.out.println();
+		p2.printBoard();
 
 	}
 	
@@ -91,7 +99,7 @@ public class Program {
 		for (int i = 0; i < shipSizes.length; i++) {
 			Ship s = new Ship(shipSizes[i], false);
 			p.placeShip(i, i, s);
-			p.getEnemyShips().add(s);
+			p.getPlayerShips().add(s);
 		}
 	}
 
