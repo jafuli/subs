@@ -11,19 +11,14 @@ public class Player {
 	private int[][] guessBoard = new int[10][10];
 	private List<Ship> playerShips = new ArrayList<Ship>();
 	private List<Ship> enemyShips = new ArrayList<Ship>();
+	private boolean winner = false;
 
 	private Checks check = new Checks();
 
 	public Player() {
 	}
 
-	public int[][] getBoard() {
-		return playerBoard;
-	}
-
-	public void setBoard(int[][] board) {
-		this.playerBoard = board;
-	}
+	
 
 	public void placeShip(int indexR, int indexC, Ship ship) throws Exception {
 
@@ -54,15 +49,29 @@ public class Player {
 		int o = guessBoard[indexR][indexC];
 		if (o > 0) {
 			for (Ship ship : enemyShips) {
-				if (ship.getId() == o) {
-					System.out.println(ship.getHitsCounter());
+				if (ship.getVisibleId() == o) {
+					System.out.println("hit");
 					ship.setHitsCounter();
-					System.out.println(ship.getHitsCounter());
+					if (winCheck())
+						winner = true;
+					else
+						System.out.println("no win");
 					return true;
 				}
 			}
+		} else {
+			System.out.println("miss");
 		}
 		return false;
+	}
+	
+	public boolean winCheck() {
+		for (Ship ship : enemyShips) {
+			if (!ship.isSunk()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public int[][] getPlayerBoard() {
@@ -87,6 +96,12 @@ public class Player {
 
 	public void setEnemyShips(List<Ship> enemyShips) {
 		this.enemyShips = enemyShips;
+	}
+
+
+
+	public int[][] getGuessBoard() {
+		return guessBoard;
 	}
 
 }
