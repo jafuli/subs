@@ -3,17 +3,17 @@ package beans;
 public class Ship {
 
 	private static int id = 0;
+	private int visibleId;
 	private int length;
 	private boolean horizontal;
 	private boolean sunk;
 	private String model;
 	private int hitsCounter = 0;
-	
-	
 
 	public Ship(int length, boolean horizontal) {
 		super();
 		++id;
+		this.visibleId = id;
 		this.length = length;
 		this.horizontal = horizontal;
 		setModel(length);
@@ -56,7 +56,7 @@ public class Ship {
 			this.model = "Destroyer";
 		if (length == 5)
 			this.model = "Aircraft Carrier";
-		
+
 	}
 
 	@Override
@@ -71,16 +71,18 @@ public class Ship {
 
 	public void setHitsCounter() {
 		this.hitsCounter++;
-		if (this.hitsCounter == length)
+		if (this.hitsCounter == length) {
+			System.out.println(model + " sunk");
 			setSunk(true);
+		}
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	
-
-	
+	public int getVisibleId() {
+		return visibleId;
+	}
 
 }
