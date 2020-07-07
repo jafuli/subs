@@ -6,10 +6,16 @@ import beans.Ship;
 
 public class Checks {
 
-	public static boolean checkInputForInt(int input) {
-		for (int i = 1; i < 10; i++) {
-			if (input == i)
-				return true;
+	public static boolean checkInputForInt(String input) {
+		if (input.length() == 1) {
+			for (int i = 0; i < 10; i++) {
+				try {
+					if (Integer.parseInt(input) == i)
+						return true;
+				} catch (NumberFormatException e) {
+					return false;
+				}
+			}
 		}
 		return false;
 	}
@@ -27,7 +33,7 @@ public class Checks {
 		int[][] testBoard = new int[10][10];
 		for (int i = 0; i < testBoard.length; i++) {
 			for (int j = 0; j < testBoard.length; j++) {
-				testBoard[i][j] = player.getBoard()[i][j];
+				testBoard[i][j] = player.getPlayerBoard()[i][j];
 			}
 		}
 		if (ship.isHorizontal()) {
