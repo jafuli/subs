@@ -21,8 +21,8 @@ public class Player {
 
 	public Player() {
 	}
-	
-	// inputs is designed for 1 char only
+
+	// place all 5 ships in order of size by the player using input
 	public void fill() {
 		int[] shipSizes = { 2, 2, 3, 4, 5 };
 		System.out.println("place 5 ships:");
@@ -62,12 +62,11 @@ public class Player {
 				System.out.println("Incorrect choice, try again");
 				System.out.println("place again please: ");
 			} catch (Exception e) {
-				// add input check for all chars in this method
 				System.out.println(e.getMessage());
 				System.out.println("place again please: ");
 			}
 		}
-//		sc.close();
+
 	}
 
 	public void placeShip(int indexR, int indexC, Ship ship) throws Exception {
@@ -83,7 +82,8 @@ public class Player {
 				playerBoard[indexR][indexC] = ship.getId();
 			}
 		}
-
+		Ship.setId(ship.getId() + 1);
+		playerShips.add(ship);
 	}
 
 	public void printPlayerBoard() {
@@ -116,8 +116,9 @@ public class Player {
 		}
 	}
 
-	// returns true if hit, false if miss, throws exception if shot to same place twice
-	public boolean shoot(int indexR, int indexC) throws invalidShotException {
+	// returns true if hit, false if miss, throws exception if shot to same place
+	// twice
+	public void shoot(int indexR, int indexC) throws invalidShotException {
 		if (guessBoard[indexR][indexC] < 0)
 			throw new invalidShotException();
 		int o = guessBoard[indexR][indexC];
@@ -126,18 +127,15 @@ public class Player {
 				if (ship.getVisibleId() == o) {
 					System.out.println("hit");
 					ship.setHitsCounter();
-					if (winCheck())
+					if (winCheck()) // after every successful shot check if player wins
 						winner = true;
-//					else
-//						System.out.println("no win");
 					guessBoard[indexR][indexC] = -1 * guessBoard[indexR][indexC]; // hit (-1 - -10)
-					return true;
+					return;
 				}
 			}
 		}
 		System.out.println("miss");
 		guessBoard[indexR][indexC] = -11; // no hit
-		return false;
 	}
 
 	public boolean winCheck() {
