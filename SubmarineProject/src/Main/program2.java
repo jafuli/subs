@@ -10,21 +10,14 @@ import inputCheck.Checks;
 public class Program2 {
 
 	public static void main(String[] args) {
-		Player p1 = new Player();
+		Player p1 = new Player(); 
 		Player p2 = new Player();
 
-//		System.out.print("Player 1, ");
-//		p1.fill();
-//		System.out.print("Player 2, ");
-//		p2.fill();
-
-		try {
-			generateBoard(p1);
-			generateBoard(p2);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.print("Player 1, ");
+		p1.fill(); // player 1 creates his board
+		System.out.print("Player 2, ");
+		p2.fill(); // player 2 creates his board
+		
 		
 		p1.setGuessBoard(p2.getPlayerBoard());
 		p2.setGuessBoard(p1.getPlayerBoard());
@@ -33,15 +26,15 @@ public class Program2 {
 
 		Scanner sc = new Scanner(System.in);
 
-		boolean p1Turn = true;
-		while (!p1.isWinner() && !p2.isWinner()) {
-			if (p1Turn) {
+		boolean p1Turn = true; 
+		while (!p1.isWinner() && !p2.isWinner()) { // game runs until all enemy ships are sunk and a winner is found 
+			if (p1Turn) { // checking player 1 turn input
 				System.out.println("player 1 - player board:");
-				p1.printPlayerBoard();
+				p1.printPlayerBoard(); // show own board
 				System.out.println("player 1 - guess board:");
-				p1.printGuessBoard();
+				p1.printGuessBoard(); // show enemy board
 				System.out.println("Player 1, shoot: ");
-				System.out.print("row: ");
+				System.out.print("row: "); // insert coordinates for shot
 				String indexR1 = sc.next();
 				if (!Checks.checkInputForInt(indexR1)) {
 					System.out.println("Incorrect index, try again");
@@ -56,19 +49,19 @@ public class Program2 {
 				try {
 					int indexR = Integer.parseInt(indexR1);
 					int indexC = Integer.parseInt(indexC1);
-					p1.shoot(indexR, indexC);
+					p1.shoot(indexR, indexC); 
 				} catch (invalidShotException e) {
 					System.out.println(e.getMessage() + ", try again");
 					continue;
 				}
-				p1Turn = false;
+				p1Turn = false; // player 1 turn ends, player 2 turn starts
 			} else {
-				System.out.println("player 2 - player board:");
-				p2.printPlayerBoard();
+				System.out.println("player 2 - player board:"); // checking player 2 turn input
+				p2.printPlayerBoard(); // show own board
 				System.out.println("player 2 - guess board:");
-				p2.printGuessBoard();
+				p2.printGuessBoard();// show enemy board
 				System.out.println("Player 2, shoot:");
-				System.out.print("row: ");
+				System.out.print("row: "); // insert coordinates for shot
 				String indexR1 = sc.next();
 				if (!Checks.checkInputForInt(indexR1)) {
 					System.out.println("Incorrect index, try again");
@@ -88,22 +81,16 @@ public class Program2 {
 					System.out.println(e.getMessage() + ", try again");
 					continue;
 				}
-				p1Turn = true;
+				p1Turn = true; // player 2 turn ends, player 1 turn starts
 			}
 		}
-		if (p1.isWinner())
-			System.out.println("Player 1 is the winner");
+		if (p1.isWinner()) // print who wins
+			System.out.println("Player 1 is the win...\nBIBI wins, we all lose!");
 		else
-			System.out.println("Player 2 is the winner");
+			System.out.println("Player 2 is the win...\nBIBI wins, we all lose!");
+		
+		sc.close();
 	}
 	
-	public static void generateBoard(Player p) throws Exception {
-		int[] shipSizes = { 2, 2, 3, 4, 5 };
-		for (int i = 0; i < shipSizes.length; i++) {
-			Ship s = new Ship(shipSizes[i], false);
-			p.placeShip(i, i, s);
-			p.getPlayerShips().add(s);
-		}
-	}
 
 }
